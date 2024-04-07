@@ -1,12 +1,12 @@
 import logging
-from dataclasses import dataclass
 
 from pandas import DataFrame
-from tb1_parser.types.ai_signal import AiSignal
-from tb1_parser.types.di_signal import DiSignal
-from tb1_parser.types.parsed_tb1_collection import ParsedTB1Collection
+from tb1_parser.ai_signal import AiSignal
+from tb1_parser.di_signal import DiSignal
+from tb1_parser.parsed_tb1_collection import ParsedTB1Collection
 
 from src.modules.test_report_maker.types.test_report import TestReport
+
 
 REPORT_CONFIG: dict = {
     'Ai': {
