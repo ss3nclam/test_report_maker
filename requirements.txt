@@ -10,4 +10,4 @@ transliterate==1.10.2
 tzdata==2024.1
 xlrd==2.0.1
 XlsxWriter==3.2.0
-tb1-parser==1.0.0
+tb1-parser==1.0.4
