@@ -1,12 +1,9 @@
 import logging
 
 from pandas import DataFrame
-from tb1_parser.ai_signal import AiSignal
-from tb1_parser.di_signal import DiSignal
-from tb1_parser.parsed_tb1_collection import ParsedTB1Collection
+from tb1_parser import AiSignal, DiSignal, ParsedTB1Collection
 
-from src.modules.test_report_maker.types.test_report import TestReport
-
+from . import TestReport
 
 REPORT_CONFIG: dict = {
     'Ai': {
@@ -55,7 +52,7 @@ REPORT_CONFIG: dict = {
 class TestReportMaker:
 
     def __init__(self, parsed_collection: ParsedTB1Collection) -> None:
-        self.__logs_owner = self.__class__.__name__
+        self.__logs_owner: str = self.__class__.__name__
 
         self.__parsed_collection = parsed_collection
         self.__report = TestReport()
@@ -82,20 +79,8 @@ class TestReportMaker:
             logging.error(f'{self.__logs_owner}:Ai_sheet: ошибка формирования листа - {error}')
 
     
-    # REFACT Отрефакторить метод создания Di листа
     def __make_Di_sheet(self):
-        try:
-            columns = REPORT_CONFIG['Di']['columns']
-            sheet = DataFrame(columns=columns)
-            for signal in (signal for signal in self.__parsed_collection['Di'] if signal.name.lower() != 'резерв'):
-                signal: DiSignal
-                logic_value = signal.logic_value
-                sheet.loc[len(sheet.index)] = [signal.name, (logic_value if logic_value is not None else 'X'), *['']*(len(columns) - 2)]
-
-            self.__report.Ai_sheet = sheet
-
-        except Exception as error:
-            logging.error(f'{self.__logs_owner}:Di_sheet: ошибка формирования листа - {error}')
+        pass
     
     
     def __make_Do_sheet(self):
