@@ -57,7 +57,6 @@ class TestReportMaker:
         self.__parsed_collection = parsed_collection
         self.__report = TestReport()
 
-
     # REFACT Отрефакторить метод создания Ai листа
     def __make_Ai_sheet(self):
         try:
@@ -78,30 +77,23 @@ class TestReportMaker:
         except Exception as error:
             logging.error(f'{self.__logs_owner}:Ai_sheet: ошибка формирования листа - {error}')
 
-    
     def __make_Di_sheet(self):
         pass
-    
     
     def __make_Do_sheet(self):
         pass
     
-    
     def __make_logics_sheet(self):
         pass
-    
     
     def __make_protections_sheet(self):
         pass
  
- 
     def __make_diagnostics_sheet(self):
         pass
 
-
     def init_sheets(self):
         pass
-
 
     def write_to_excel(self, filename: str):
         pass
