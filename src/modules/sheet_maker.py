@@ -10,5 +10,3 @@ class ReportMaker:
     def __init__(self, tb1_collection: ParsedTB1Collection):
         self.__logs_owner: str = self.__class__.__name__
         self.__tb1_collection = tb1_collection
-
-    def 
