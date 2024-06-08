@@ -7,13 +7,12 @@ from pandas import DataFrame
 class TestReport(object):
 
     def __init__(self):
-        self.Ai_sheet: None | DataFrame
-        self.Di_sheet: None | DataFrame
-        self.Do_sheet: None | DataFrame
-        self.logics_sheet: None | DataFrame
-        self.protections_sheet: None | DataFrame
-        self.diagnostics_sheet: None | DataFrame
+        self.Ai: tuple[str, DataFrame] | None
+        self.Di: tuple[str, DataFrame] | None
+        self.Do: tuple[str, DataFrame] | None
+        self.IM: tuple[str, DataFrame] | None
+        self.protect: tuple[str, DataFrame] | None
+        self.diag: tuple[str, DataFrame] | None
 
-
-    def __repr__(self) -> str:
+    def __str__(self) -> str:
         return f'{self.__class__.__name__}{tuple(self.__dict__)}'
