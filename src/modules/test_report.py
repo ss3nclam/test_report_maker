@@ -7,12 +7,12 @@ from pandas import DataFrame
 class TestReport(object):
 
     def __init__(self):
-        self.Ai: tuple[str, DataFrame] | None
-        self.Di: tuple[str, DataFrame] | None
-        self.Do: tuple[str, DataFrame] | None
-        self.IM: tuple[str, DataFrame] | None
-        self.protect: tuple[str, DataFrame] | None
-        self.diag: tuple[str, DataFrame] | None
+        self.Ai: DataFrame | None
+        self.Di: DataFrame | None
+        self.Do: DataFrame | None
+        self.IM: DataFrame | None
+        self.protect: DataFrame | None
+        self.diag: DataFrame | None
 
     def __str__(self) -> str:
         return f'{self.__class__.__name__}{tuple(self.__dict__)}'

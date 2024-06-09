@@ -9,6 +9,7 @@ REPORT_CONFIG: dict = {
     'Ai': {
         'sheet_name': 'Аналог. вх.',
         'columns': [
+            '№',
             'Наименование параметра',
             'Тип',
             'Значение уставки',
@@ -55,24 +56,24 @@ class TestReportMaker:
         self.__logs_owner: str = self.__class__.__name__
 
         self.__parsed_collection = parsed_collection
-        self.__report = TestReport()
+        self.report = TestReport()
 
     # REFACT Отрефакторить метод создания Ai листа
-    def __make_Ai_sheet(self):
+    def make_Ai_sheet(self):
         try:
             columns = REPORT_CONFIG['Ai']['columns']
             sheet = DataFrame(columns=columns)
 
-            for signal in (signal for signal in self.__parsed_collection['Ai'] if signal.name.lower() != 'резерв'):
+            for index, signal in enumerate(signal for signal in self.__parsed_collection['Ai'] if signal.isused()):
                 signal: AiSignal
-                sheet.loc[len(sheet.index)] = [signal.name, 'знач.', *['']*(len(columns) - 2)]
+                sheet.loc[len(sheet.index)] = [str(index + 1), signal.name, 'знач.', *['']*(len(columns) - 3)]
                 setpoints = {'НГ': signal.LL, 'НА': signal.LA, 'НП': signal.LW, 'ВП': signal.HW, 'ВА': signal.HA, 'ВГ': signal.HL}
                 for name, value in setpoints.items():
                     value: float | None
                     if value is not None:
-                        sheet.loc[len(sheet.index)] = ['', name, round(value) if value.is_integer() else value, *['']*(len(columns) - 3)]
+                        sheet.loc[len(sheet.index)] = ['', '', name, round(value) if value.is_integer() else value, *['']*(len(columns) - 4)]
 
-            self.__report.Ai_sheet = sheet
+            self.report.Ai = sheet
 
         except Exception as error:
             logging.error(f'{self.__logs_owner}:Ai_sheet: ошибка формирования листа - {error}')
