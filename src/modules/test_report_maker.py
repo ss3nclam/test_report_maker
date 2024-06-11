@@ -73,7 +73,7 @@ class TestReportMaker:
                     if value is not None:
                         sheet.loc[len(sheet.index)] = ['', '', name, round(value) if value.is_integer() else value, *['']*(len(columns) - 4)]
 
-            self.report.Ai = sheet
+            self.report.__Ai_sheet = sheet
 
         except Exception as error:
             logging.error(f'{self.__logs_owner}:Ai_sheet: ошибка формирования листа - {error}')
