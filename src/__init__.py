@@ -1,1 +1,1 @@
-from .modules import TestReport, TestReportMaker
+from .modules import ReportMaker
