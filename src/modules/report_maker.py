@@ -1,5 +1,3 @@
-from typing import Any
-
 from openpyxl import Workbook
 from tb1_parser import ParsedTB1Collection, SignalsCollection
 
@@ -55,7 +53,7 @@ class ReportMaker:
         """
         if not isinstance(collection, ParsedTB1Collection):
             raise TypeError("некорректный тип аргумента")
-        
+
         self.__logs_owner: str = self.__class__.__name__
         self.__collection: ParsedTB1Collection = collection
         self.__wb = Workbook()
