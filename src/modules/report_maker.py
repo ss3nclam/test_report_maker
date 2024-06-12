@@ -1,5 +1,5 @@
 from openpyxl import Workbook
-from tb1_parser import ParsedTB1Collection, SignalsCollection
+from tb1_parser import ParsedTB1Collection, SignalsCollection, AiSignal
 
 # TODO перенести в файл конфига
 SHEETS_CONFIG = {
@@ -38,10 +38,43 @@ SHEETS_CONFIG = {
         "Сообщение о подаче команды",
         "Исполнение на имитаторе",
     ),
-    "IM": (None),
-    "Prot": (None),
-    "Diag": (None),
-    "Alg": (None),
+    "IM": (
+        "№",
+        "Наименование параметра",
+        "Состояние",
+        "Индикация на мнемосхеме",
+        "Сообщение в журнале",
+    ),
+    "Prot": (
+        "№",
+        "Наименование параметра",
+        "Корректность взвода защиты (с экрана)",
+        "Снятие взвода защит (с экрана)",
+        'Снятие взвода защит (с экрана) в окне "События"',
+        "Корректность взвода защиты из алгоритма",
+        'Корректность взвода защиты из алгоритма в окне "События"',
+        "Корректность ввода в ремонт",
+        "Корректность вывод ремонта из алгоритма",
+        "Корректность ввода/вывода в ремонт (сообщения)",
+    ),
+    "Diag": (
+        "№",
+        "Наименование параметра",
+        "Модуль ПЛК",
+        "Канал",
+        "Вспл. подсказки",
+        "Привязка",
+        "Индикация",
+    ),
+    "Alg": (
+        "№",
+        "Фазы (НУ)",
+        "№ Фазы",
+        "Соответствие описанию",
+        "Проверка на исполнение",
+        "Проверка на ошибку фазы (неуспешное выполнение фазы (error))",
+        "Формирование ошибки алгоритма при наличии ошибки фазы",
+    ),
 }
 
 
@@ -55,18 +88,54 @@ class ReportMaker:
             raise TypeError("некорректный тип аргумента")
 
         self.__logs_owner: str = self.__class__.__name__
-        self.__collection: ParsedTB1Collection = collection
+        self.__collection: ParsedTB1Collection = collection.filter(
+            key=lambda signal: signal.isused()
+        )
         self.__wb = Workbook()
 
-        # TODO перенести в метод создания листов
-        for ws_name, ws_columns in SHEETS_CONFIG.items():
-            self.__wb.create_sheet(ws_name) if ws_columns else None
-
-    def __make_Ai_sheet(self, signals: SignalsCollection):
+    def __get_identical_cells(self, column: str):
         """
         docstring
         """
         pass
 
+    def __fill_Ai_sheet(self):
+        """
+        docstring
+        """
+        sheet = self.__wb["Ai"]
+        for index, signal in enumerate(self.__collection["Ai"]):
+            signal: AiSignal
+            sheet.append((index + 1, signal.name, "знач."))
+            sp_dict = {
+                key: value
+                for key, value in {
+                    "НГ": signal.LL,
+                    "НА": signal.LA,
+                    "НП": signal.LW,
+                    "ВП": signal.HW,
+                    "ВА": signal.HA,
+                    "ВГ": signal.HL,
+                }.items()
+                if value is not None
+            }
+            for sp_name, sp_value in sp_dict.items():
+                sheet.append((index + 1, signal.name, sp_name, sp_value))
+        print(set(cell.value for cell in sheet['A']))
+
+    def make_sheets(self):
+        """
+        docstring
+        """
+        for ws_name, ws_columns in SHEETS_CONFIG.items():
+            self.__wb.create_sheet(ws_name) if ws_columns else None
+            self.__wb[ws_name].append(ws_columns)
+        del self.__wb["Sheet"]
+
+        self.__fill_Ai_sheet()
+
     def write(self, filename: str):
+        """
+        docstring
+        """
         self.__wb.save(filename)
