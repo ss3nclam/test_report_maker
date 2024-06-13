@@ -1,5 +1,5 @@
 from openpyxl import Workbook
-from tb1_parser import AiSignal, ParsedTB1Collection, SignalsCollection
+from tb1_parser import AiSignal, ParsedTB1Collection, Signal, SignalsCollection
 
 # TODO перенести в файл конфига
 SHEETS_CONFIG = {
@@ -144,6 +144,22 @@ class ReportMaker:
                 sheet.append((index + 1, signal.name, sp_name, sp_value))
         self.__merge_identical_cells(sheet)
 
+    def __fill_Prot_sheet(self):
+        """
+        docstring
+        """
+        sheet = self.__wb["Prot"]
+        collection: ParsedTB1Collection | None = self.__collection.filter(
+            key=lambda signal: signal.isprotected()
+        )
+        index = 1
+        for key, value in collection.items():
+            sheet.append([key])
+            for signal in value:
+                signal: Signal
+                sheet.append((index, signal.name))
+                index += 1
+
     def make_sheets(self):
         """
         docstring
@@ -154,6 +170,7 @@ class ReportMaker:
         del self.__wb["Sheet"]
 
         self.__fill_Ai_sheet()
+        self.__fill_Prot_sheet()
 
     def write(self, filename: str):
         """
