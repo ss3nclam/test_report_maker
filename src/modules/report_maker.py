@@ -1,6 +1,5 @@
 from openpyxl import Workbook
-from openpyxl.workbook.workbook import _WorksheetOrChartsheetLike
-from tb1_parser import ParsedTB1Collection, SignalsCollection, AiSignal
+from tb1_parser import AiSignal, ParsedTB1Collection, SignalsCollection
 
 # TODO перенести в файл конфига
 SHEETS_CONFIG = {
@@ -94,7 +93,7 @@ class ReportMaker:
         )
         self.__wb = Workbook()
 
-    def __get_identical_cells(self, sheet: _WorksheetOrChartsheetLike, column: str):
+    def __get_identical_cells(self, sheet, column: str):
         """
         docstring
         """
@@ -104,7 +103,7 @@ class ReportMaker:
         """
         docstring
         """
-        sheet: _WorksheetOrChartsheetLike = self.__wb["Ai"]
+        sheet = self.__wb["Ai"]
         for index, signal in enumerate(self.__collection["Ai"]):
             signal: AiSignal
             sheet.append((index + 1, signal.name, "знач."))
