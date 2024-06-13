@@ -93,12 +93,32 @@ class ReportMaker:
         )
         self.__wb = Workbook()
 
-    def __get_identical_cells_range(self, sheet, column: str):
+    # REFACT отрефакторить метод
+    def __merge_identical_cells(self, sheet, columns_range: tuple = ("A", "B")):
         """
         docstring
         """
-        print(list(sheet[column]))
-        pass
+        ranges = []
+        for column in columns_range:
+            cells_list = tuple(cell.value for cell in sheet[column])
+            unique_values_list = tuple({}.fromkeys(cells_list))[1:]
+            unique_values_indexes = []
+
+            for unique_value in unique_values_list:
+                unique_values_indexes.append(cells_list.index(unique_value))
+
+            unique_values_indexes.append(len(cells_list))
+
+            for i, index_value in enumerate(unique_values_indexes):
+                if index_value == unique_values_indexes[-1]:
+                    break
+                column_range: str = (
+                    f"{column}{index_value + 1}:{column}{unique_values_indexes[i + 1]}"
+                )
+                ranges.append(column_range)
+
+        for cell_range in ranges:
+            sheet.merge_cells(cell_range)
 
     def __fill_Ai_sheet(self):
         """
@@ -122,9 +142,7 @@ class ReportMaker:
             }
             for sp_name, sp_value in sp_dict.items():
                 sheet.append((index + 1, signal.name, sp_name, sp_value))
-        # print(set(cell.value for cell in sheet['A'][1:]))
-        self.__get_identical_cells_range(sheet, 'A')
-        
+        self.__merge_identical_cells(sheet)
 
     def make_sheets(self):
         """
