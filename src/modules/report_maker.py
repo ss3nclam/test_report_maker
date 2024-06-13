@@ -98,6 +98,7 @@ class ReportMaker:
         docstring
         """
         print(list(sheet[column]))
+        pass
 
     def __fill_Ai_sheet(self):
         """
