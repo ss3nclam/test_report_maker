@@ -16,4 +16,4 @@ def main():
 
     report = ReportMaker(tb1)
     report.make_sheets()
-    report.write("xz.xlsx")
+    report.write("out.xlsx")

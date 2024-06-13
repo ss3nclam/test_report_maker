@@ -1,13 +1,12 @@
 et-xmlfile==1.1.0
 numpy==1.26.4
-openpyxl==3.1.2
-pandas==2.2.1
+openpyxl==3.1.4
+pandas==2.2.2
 python-dateutil==2.9.0.post0
 pytz==2024.1
-setuptools==69.1.0
 six==1.16.0
+tb1_parser==1.0.8
 transliterate==1.10.2
 tzdata==2024.1
 xlrd==2.0.1
 XlsxWriter==3.2.0
-tb1-parser==1.0.8

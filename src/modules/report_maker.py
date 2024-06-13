@@ -93,11 +93,11 @@ class ReportMaker:
         )
         self.__wb = Workbook()
 
-    def __get_identical_cells(self, sheet, column: str):
+    def __get_identical_cells_range(self, sheet, column: str):
         """
         docstring
         """
-        pass
+        print(list(sheet[column]))
 
     def __fill_Ai_sheet(self):
         """
@@ -122,6 +122,7 @@ class ReportMaker:
             for sp_name, sp_value in sp_dict.items():
                 sheet.append((index + 1, signal.name, sp_name, sp_value))
         # print(set(cell.value for cell in sheet['A'][1:]))
+        self.__get_identical_cells_range(sheet, 'A')
         
 
     def make_sheets(self):
