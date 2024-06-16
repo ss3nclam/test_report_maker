@@ -87,6 +87,23 @@ class ReportMaker:
                 sheet.append((index, signal.name))
                 index += 1
 
+    def __fill_Diag_sheet(self):
+        """
+        docstring
+        """
+        sheet = self.__wb["Diag"]
+        collection: ParsedTB1Collection | None = self.__collection
+        index = 1
+        for key, value in collection.items():
+            sheet.append([key])
+            for signal in value:
+                signal: Signal
+                sheet.append(
+                    (index, signal.name, signal.plc_module.module, signal.plc_channel)
+                )
+                index += 1
+        self.__merge_identical_cells(sheet, ("C"))
+
     def make_sheets(self):
         """
         docstring
@@ -98,6 +115,7 @@ class ReportMaker:
 
         self.__fill_Ai_sheet()
         self.__fill_Prot_sheet()
+        self.__fill_Diag_sheet()
 
     def write(self, filename: str):
         """
