@@ -70,6 +70,24 @@ class ReportMaker:
             for sp_name, sp_value in sp_dict.items():
                 sheet.append((index + 1, signal.name, sp_name, sp_value))
         self.__merge_identical_cells(sheet)
+    
+    def __fill_Di_sheet(self):
+        """
+        docstring
+        """
+        pass
+
+    def __fill_Do_sheet(self):
+        """
+        docstring
+        """
+        pass
+
+    def __fill_IM_sheet(self):
+        """
+        docstring
+        """
+        pass
 
     def __fill_Prot_sheet(self):
         """
