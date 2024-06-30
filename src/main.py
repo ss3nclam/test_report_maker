@@ -1,4 +1,5 @@
 from os import listdir
+
 from tb1_parser import TB1Parser
 
 from .modules.report_maker import ReportMaker
