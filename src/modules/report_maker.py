@@ -1,5 +1,4 @@
 from openpyxl import Workbook
-
 from tb1_parser import AiSignal, ParsedTB1Collection, Signal, SignalsCollection
 
 from .settings import SHEETS_CONFIG
